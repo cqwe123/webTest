@@ -10,4 +10,10 @@ public class login {
     {
         return "hello! git logined";
     }
+
+    @GetMapping("login2")
+    public String login2()
+    {
+        return "hello! git logined2";
+    }
 }
