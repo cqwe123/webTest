@@ -26,4 +26,9 @@ public class login {
     {
         return "hello! git logined4";
     }
+    @GetMapping("login5")
+    public String login5()
+    {
+        return "hello! git logined5";
+    }
 }
