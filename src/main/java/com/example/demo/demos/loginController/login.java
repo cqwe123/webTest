@@ -21,10 +21,10 @@ public class login {
     {
         return "hello! git logined3";
     }
-    @GetMapping("login4")
+    @GetMapping("login4222")
     public String login4()
     {
-        return "hello! git logined4";
+        return "hello! git logined4222";
     }
     @GetMapping("login5")
     public String login5()
