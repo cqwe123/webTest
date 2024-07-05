@@ -1,9 +1,11 @@
-package com.example.demo.demos.loginController;
+package com.example.demo.demos.controller.loginController;
 
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@Api(tags = "git登录测试接口")
 public class login {
     @GetMapping("login")
     public String login()
