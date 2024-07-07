@@ -1,0 +1,12 @@
+server:
+  port: 8081
+
+spring:
+  profiles:
+    active: dev
+
+student:
+  name: "张三"
+  age: 23
+  gender: ${a.port}
+  address: "北京"

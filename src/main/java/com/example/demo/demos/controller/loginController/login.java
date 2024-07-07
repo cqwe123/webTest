@@ -1,36 +1,39 @@
 package com.example.demo.demos.controller.loginController;
 
+import com.example.demo.demos.dao.Sutdent;
 import io.swagger.annotations.Api;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Api(tags = "git登录测试接口")
+@Slf4j
 public class login {
-    @GetMapping("login")
+    @Autowired
+    Sutdent sutdent;
+    @GetMapping("logins")
     public String login()
     {
-        return "hello! git logined";
+        System.out.println(sutdent.toString());
+        log.info("学生的信息是： {}",sutdent.toString());
+        return "hello! git logined get";
     }
 
-    @GetMapping("login2")
+    @PostMapping("logins")
     public String login2()
     {
-        return "hello! git logined2";
+        return "hello! git logined post";
     }
-    @GetMapping("login3")
-    public String login3()
-    {
-        return "hello! git logined3";
-    }
-    @GetMapping("login4222")
+  @PutMapping("logins")
     public String login4()
     {
-        return "hello! git logined4222";
+        return "hello! git logined4222 put";
     }
-    @GetMapping("login5")
-    public String login5()
+    @DeleteMapping ("logins/{id}")
+    public String login5(@PathVariable int id)
     {
+        System.out.println(id);
         return "hello! git logined5";
     }
 }
