@@ -4,9 +4,17 @@ server:
 spring:
   profiles:
     active: dev
+  datasource:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/sky_take_out?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+      username: ${sky.datasource.username}
+      password: ${sky.datasource.password}
 
 student:
   name: "张三"
   age: 23
   gender: ${a.port}
   address: "北京"
+
+
+
