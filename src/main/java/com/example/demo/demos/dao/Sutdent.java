@@ -35,4 +35,10 @@ public class Sutdent {
      * 电话
      */
     String Telephone;
+    static {
+        System.out.println("Sutdent静态代码块");
+    }
+    {
+        System.out.println("Sutdent代码块");
+    }
 }
