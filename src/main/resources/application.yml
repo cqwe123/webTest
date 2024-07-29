@@ -6,11 +6,11 @@ spring:
     active: dev
   datasource:
     druid:
-      driver-class-name: ${sky.datasource.driver-class-name}
-      url: jdbc:mysql://${sky.datasource.host}:${sky.datasource.port}/${sky.datasource.database}?serverTimezone=UTC
+      driver-class-name: ${pullTest.datasource.driver-class-name}
+      url: jdbc:mysql://${pullTest.datasource.host}:${sky.datasource.port}/${sky.datasource.database}?serverTimezone=UTC
 #      ?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
-      username: ${sky.datasource.username}
-      password: ${sky.datasource.password}
+      username: ${pullTest.datasource.username}
+      password: ${pullTest.datasource.password}
   redis:
     host: ${pullTest.redis.host}
     port: ${pullTest.redis.port}
