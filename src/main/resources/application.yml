@@ -7,7 +7,7 @@ spring:
   datasource:
     druid:
       driver-class-name: ${pullTest.datasource.driver-class-name}
-      url: jdbc:mysql://${pullTest.datasource.host}:${sky.datasource.port}/${sky.datasource.database}?serverTimezone=UTC
+      url: jdbc:mysql://${pullTest.datasource.host}:${pullTest。datasource.port}/${pullTest.datasource.database}?serverTimezone=UTC
 #      ?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
       username: ${pullTest.datasource.username}
       password: ${pullTest.datasource.password}
