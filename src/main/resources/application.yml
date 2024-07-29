@@ -1,0 +1,39 @@
+server:
+  port: 8081
+
+spring:
+  profiles:
+    active: dev
+  datasource:
+    druid:
+      driver-class-name: ${sky.datasource.driver-class-name}
+      url: jdbc:mysql://${sky.datasource.host}:${sky.datasource.port}/${sky.datasource.database}?serverTimezone=UTC
+#      ?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+      username: ${sky.datasource.username}
+      password: ${sky.datasource.password}
+  redis:
+    host: 192.168.31.136
+    port: 6379
+    password: 160150..
+    lettuce:
+      pool:
+        max-idle: 8
+        max-active: 8
+        min-idle: 0
+        max-wait: 100
+student:
+  name: "张三"
+  age: 23
+  gender: ${a.port}
+  address: "北京"
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+
+SMS:
+  accessKeyId: ${pullTest.SMS.ACCESSKEYID}
+  AccessKeySecret: ${pullTest.SMS.ACCESSKEYSECRET}
+  SIGN_NAME: ${pullTest.SMS.SIGN_NAME}
+  TEMP_LATE_CODE: ${pullTest.SMS.TEMP_LATE_CODE}
+
