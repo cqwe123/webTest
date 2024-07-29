@@ -12,9 +12,9 @@ spring:
       username: ${sky.datasource.username}
       password: ${sky.datasource.password}
   redis:
-    host: 192.168.31.136
-    port: 6379
-    password: 160150..
+    host: ${pullTest.redis.host}
+    port: ${pullTest.redis.port}
+    password: ${pullTest.redis.password}
     lettuce:
       pool:
         max-idle: 8
