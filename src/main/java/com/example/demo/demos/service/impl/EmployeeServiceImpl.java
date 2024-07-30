@@ -1,6 +1,7 @@
 package com.example.demo.demos.service.impl;
 
 import com.alibaba.fastjson2.JSON;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.example.demo.demos.constant.EmployeeConstant;
 import com.example.demo.demos.mapper.EmployeeMapper;
 import com.example.demo.demos.service.EmployeeService;
@@ -11,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -24,7 +27,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Result<Employee> getEmployeeById(String id) {
         //从缓存获取用户信息
-        String employee = stringRedisTemplate.opsForValue().get(EmployeeConstant.namePre + id);
+        String employee = stringRedisTemplate.opsForValue().get(EmployeeConstant.NAME_PRE + id);
         Employee employee1 = null;
         //缓存没命中,去数据库取
         if(employee == null){
@@ -42,8 +45,33 @@ public class EmployeeServiceImpl implements EmployeeService {
         }else {
             //数据库取到后写入缓存,并返回结果
             log.info("数据库命中");
-            stringRedisTemplate.opsForValue().set(String.valueOf(EmployeeConstant.namePre + id),JSON.toJSONString(employee1),24, TimeUnit.HOURS);
+            stringRedisTemplate.opsForValue().set(EmployeeConstant.NAME_PRE + id,
+                    JSON.toJSONString(employee1),EmployeeConstant.TIMEOUT, TimeUnit.MINUTES);
             return Result.ok(employee1);
         }
+    }
+
+    @Transactional
+    public boolean updateEmployeeById(Employee employee) {
+        employee.setUpdateTime(LocalDateTime.now());
+        UpdateWrapper<Employee> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq("id",employee.getId());
+        updateWrapper.set("update_time",LocalDateTime.now());
+        updateWrapper.set("name",employee.getName());
+        updateWrapper.set("sex",employee.getSex());
+        updateWrapper.set("phone",employee.getPhone());
+        updateWrapper.set("id_number",employee.getIdNumber());
+        updateWrapper.set("status",employee.getStatus());
+        updateWrapper.set("username",employee.getUsername());
+        employee.setUpdateTime(LocalDateTime.now());
+        employee.setUpdateUser(employee.getId());
+        int updateNum = employeeMapper.update(null,updateWrapper);
+       if (updateNum > 0)
+       {
+           stringRedisTemplate.delete(EmployeeConstant.namePre + employee.getId());
+           return true;
+       }
+      return false;
+
     }
 }
