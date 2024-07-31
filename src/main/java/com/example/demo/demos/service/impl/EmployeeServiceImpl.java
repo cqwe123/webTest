@@ -35,7 +35,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             employee1 = employeeMapper.selectById(id);
         }else{
             //缓存命中,直接返回
-            log.info("缓存命中");
+            log.info("缓存命中 所查询用户id:"+id);
             return Result.ok(JSON.parseObject(employee,Employee.class));
         }
         //数据库没有取到,直接返回
@@ -68,7 +68,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         int updateNum = employeeMapper.update(null,updateWrapper);
        if (updateNum > 0)
        {
-           stringRedisTemplate.delete(EmployeeConstant.namePre + employee.getId());
+           stringRedisTemplate.delete(EmployeeConstant.NAME_PRE + employee.getId());
            return true;
        }
       return false;
