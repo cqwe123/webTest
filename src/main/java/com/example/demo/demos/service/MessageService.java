@@ -1,5 +1,5 @@
 package com.example.demo.demos.service;
 
-public interface Message {
+public interface MessageService {
     public String requestCode(String telephone);
 }

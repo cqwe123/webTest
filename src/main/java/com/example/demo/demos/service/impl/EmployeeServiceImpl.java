@@ -27,26 +27,33 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Result<Employee> getEmployeeById(String id) {
         //从缓存获取用户信息
-        String employee = stringRedisTemplate.opsForValue().get(EmployeeConstant.NAME_PRE + id);
+        String employee = stringRedisTemplate.opsForValue().get(EmployeeConstant.CACHE_NAME_PRE + id);
         Employee employee1 = null;
         //缓存没命中,去数据库取
         if(employee == null){
             log.info("缓存未命中");
-            employee1 = employeeMapper.selectById(id);
-        }else{
+        }
+        //缓存命中,但缓存内容为空,说明数据库也没有该用户,直接返回
+        else if (employee.equals("")){
+            log.info("缓存命中,但缓存内容为空,说明数据库也没有该用户,直接返回");
+            return Result.error("没有找到该员工");
+        }
+        else{
             //缓存命中,直接返回
             log.info("缓存命中 所查询用户id:"+id);
             return Result.ok(JSON.parseObject(employee,Employee.class));
         }
-        //数据库没有取到,直接返回
+        employee1 = employeeMapper.selectById(id);
+        //数据库没有取到,写入缓存null，避免缓存击穿带来的严重后果
         if (employee1 == null){
             log.info("数据库未命中");
+            stringRedisTemplate.opsForValue().set(EmployeeConstant.CACHE_NAME_PRE + id,"",EmployeeConstant.CACHE_NULL_TTL, TimeUnit.SECONDS);
             return Result.error("没有找到该员工");
         }else {
             //数据库取到后写入缓存,并返回结果
             log.info("数据库命中");
-            stringRedisTemplate.opsForValue().set(EmployeeConstant.NAME_PRE + id,
-                    JSON.toJSONString(employee1),EmployeeConstant.TIMEOUT, TimeUnit.MINUTES);
+            stringRedisTemplate.opsForValue().set(EmployeeConstant.CACHE_NAME_PRE + id,
+                    JSON.toJSONString(employee1),EmployeeConstant.CACHE_TIMEOUT, TimeUnit.MINUTES);
             return Result.ok(employee1);
         }
     }
@@ -68,7 +75,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         int updateNum = employeeMapper.update(null,updateWrapper);
        if (updateNum > 0)
        {
-           stringRedisTemplate.delete(EmployeeConstant.NAME_PRE + employee.getId());
+           stringRedisTemplate.delete(EmployeeConstant.CACHE_NAME_PRE + employee.getId());
            return true;
        }
       return false;

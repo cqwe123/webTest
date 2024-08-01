@@ -4,8 +4,8 @@ import com.aliyun.dysmsapi20170525.Client;
 import com.aliyun.dysmsapi20170525.models.SendSmsRequest;
 import com.aliyun.dysmsapi20170525.models.SendSmsResponse;
 import com.aliyun.teaopenapi.models.Config;
-import com.example.demo.demos.constant.Sms;
-import com.example.demo.demos.service.Message;
+import com.example.demo.demos.constant.SmsConstant;
+import com.example.demo.demos.service.MessageService;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,15 +13,15 @@ import org.springframework.stereotype.Service;
 import java.util.Random;
 
 @Service
-public class MessageImpl implements Message {
+public class MessageServiceImpl implements MessageService {
     @Autowired
-    private Sms sms;
+    private SmsConstant smsConstant;
    public String requestCode(String telephone)  {
        Config config = new Config()
                // 您的AccessKey ID
-               .setAccessKeyId(sms.getSMS_ACCESS_KEY_ID())
+               .setAccessKeyId(smsConstant.getSMS_ACCESS_KEY_ID())
                // 您的AccessKey Secret
-               .setAccessKeySecret(sms.getACCESS_KEY_SECRET());
+               .setAccessKeySecret(smsConstant.getACCESS_KEY_SECRET());
 // 访问的域名
        config.endpoint = "dysmsapi.aliyuncs.com";
        Client client = null;
@@ -34,8 +34,8 @@ public class MessageImpl implements Message {
 
        request.phoneNumbers = telephone; // 该参数值为假设值，请您根据实际情况进行填写
 
-       request.signName = sms.getSIGN_NAME(); // 该参数值为假设值，请您根据实际情况进行填写
-       request.setTemplateCode(sms.getTEMP_LATE_CODE());
+       request.signName = smsConstant.getSIGN_NAME(); // 该参数值为假设值，请您根据实际情况进行填写
+       request.setTemplateCode(smsConstant.getTEMP_LATE_CODE());
        Random random = new Random();
        // 生成一个四位数的验证码
        int verificationCode = 1000 + random.nextInt(9000);
