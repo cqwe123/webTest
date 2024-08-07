@@ -5,6 +5,6 @@ import org.example.Employee;
 
 
 public interface EmployeeService {
-    Result<org.example.Employee> getEmployeeById(String id);
-    public boolean updateEmployeeById(Employee employee);
+    Result<Employee> getEmployeeById(String id);
+     boolean updateEmployeeById(Employee employee);
 }
