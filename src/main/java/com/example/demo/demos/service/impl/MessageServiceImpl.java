@@ -50,6 +50,6 @@ public class MessageServiceImpl implements MessageService {
        }
        System.out.println(new Gson().toJson(response.body));
        String requestId = response.body.requestId;
-       return code;
+       return code ;
    }
 }
